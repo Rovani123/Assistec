@@ -12,14 +12,14 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 
-public class LoginView extends JFrame {
+public class LoginView2 extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtUsuario;
-	private JTextField txtSenha;
+	public JTextField txtUsuario;
+	public JTextField txtSenha;
 
 	
-	public LoginView() {
+	public LoginView2() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

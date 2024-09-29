@@ -1,7 +1,10 @@
 package br.com.loja.Assistec;
 
+import br.com.loja.Assistec.visao.Loginview;
+
 public class App {
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+    	Loginview view = new Loginview();
+		view.setVisible(true);
     }
 }
