@@ -3,6 +3,7 @@ package br.com.loja.Assistec.visao;
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -11,6 +12,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 
 public class Loginview extends JFrame {
 
@@ -25,19 +29,33 @@ public class Loginview extends JFrame {
 	private JLabel lblSenha;
 
 	public Loginview() {
+		addWindowListener(new WindowAdapter() {
+			public void windowOpened(WindowEvent e) {
+				LoginController lc = new LoginController();
+				
+				try {
+					if (lc.verificarBancoOnline()) {
+						lblStatus.setIcon(new ImageIcon(getClass().getResource("/br/com/loja/assistec/icones/dbok.png")));
+					} else {
+						lblStatus.setIcon(new ImageIcon(getClass().getResource("/br/com/loja/assistec/icones/dberror.png")));
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		setTitle("CRUD - LOGIN");
 		setResizable(false);
 
-		//Inicializa todos elementos gráficos
 		iniciarComponentes();
 		
 		getRootPane().setDefaultButton(btnLogin);
 		
-		//Neste comando o controller vai saber quem está chamando (LoginView)
-		controller.executa(this);
+//		controller.executa(this);
 	}
 
 	public void iniciarComponentes() {
@@ -56,7 +74,8 @@ public class Loginview extends JFrame {
 		lblUsuario.setText("Usuário");
 		lblSenha.setText("Senha");
 		btnLogin.setText("Login");
-
+		
+		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
 				.createSequentialGroup()
@@ -88,12 +107,10 @@ public class Loginview extends JFrame {
 		setLocationRelativeTo(null);
 	}
 
-	//Método chamado ao clicar no botão, vai acionar o método logar() no controller
 	private void onClickBtnLogin() {
-		controller.logar();
+		
 	}
 
-	// Estes métodos devem ser public para serem usados do Controller
 	public JTextField getTxtUsuario() {
 		return txtUsuario;
 	}

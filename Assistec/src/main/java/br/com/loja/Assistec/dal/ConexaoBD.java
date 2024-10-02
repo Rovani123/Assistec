@@ -3,8 +3,8 @@ package br.com.loja.Assistec.dal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class ModuloConexao {
-	public static Connection conector()
+public class ConexaoBD {
+	public static Connection getConnection()
 	{
 		Connection conexao = null;
 		String driver = "com.mysql.cj.jdbc.Driver";
@@ -20,4 +20,6 @@ public class ModuloConexao {
 			return null;
 		}
 	}
+	
+	
 }
