@@ -5,16 +5,19 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import br.com.loja.Assistec.controle.LoginController;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.JobAttributes;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Loginview extends JFrame {
 
@@ -32,29 +35,30 @@ public class Loginview extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			public void windowOpened(WindowEvent e) {
 				LoginController lc = new LoginController();
-				
+
 				try {
 					if (lc.verificarBancoOnline()) {
-						lblStatus.setIcon(new ImageIcon(getClass().getResource("/br/com/loja/assistec/icones/dbok.png")));
+						lblStatus.setIcon(
+								new ImageIcon(getClass().getResource("/br/com/loja/assistec/icones/dbok.png")));
 					} else {
-						lblStatus.setIcon(new ImageIcon(getClass().getResource("/br/com/loja/assistec/icones/dberror.png")));
+						lblStatus.setIcon(
+								new ImageIcon(getClass().getResource("/br/com/loja/assistec/icones/dberror.png")));
 					}
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
 		});
-		
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		setTitle("CRUD - LOGIN");
 		setResizable(false);
 
 		iniciarComponentes();
-		
+
 		getRootPane().setDefaultButton(btnLogin);
-		
+
 //		controller.executa(this);
 	}
 
@@ -74,8 +78,7 @@ public class Loginview extends JFrame {
 		lblUsuario.setText("Usuário");
 		lblSenha.setText("Senha");
 		btnLogin.setText("Login");
-		
-		
+
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
 				.createSequentialGroup()
@@ -108,7 +111,28 @@ public class Loginview extends JFrame {
 	}
 
 	private void onClickBtnLogin() {
+		ArrayList<String> autenticado = new ArrayList<>();
 		
+		if(txtUsuario.getText() != null && !txtUsuario.getText().isEmpty() && String.valueOf(txtSenha.getPassword()) != null && !String.valueOf(txtSenha.getPassword()).isEmpty()) {
+			LoginController lc = new LoginController();
+			try {
+				autenticado = lc.autenticar(txtUsuario.getText(),  new String(txtSenha.getPassword()));
+				if(autenticado.get(0) != null) {
+					JOptionPane.showMessageDialog(this, "Deu certo "+ autenticado.get(0) + " 👍","mensagem",JOptionPane.INFORMATION_MESSAGE);
+					dispose();
+					PrincipalView pv = new PrincipalView(autenticado.get(0),autenticado.get(1));
+					pv.setVisible(true);
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch(NullPointerException es) {
+				JOptionPane.showMessageDialog(this,"Informações Incorretas","Erro",JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+		else {
+			JOptionPane.showMessageDialog(this,"Campos vazios","Erro",JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
 	public JTextField getTxtUsuario() {

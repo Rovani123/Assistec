@@ -13,7 +13,7 @@ public abstract class GenericDAO {
 
 	// Protected pois pertencem a esta classe, somente podem ser usadas por classes
 	// que herdam desta
-	protected GenericDAO() {
+	public GenericDAO() {
 		this.connection = ConexaoBD.getConnection();
 	}
 
