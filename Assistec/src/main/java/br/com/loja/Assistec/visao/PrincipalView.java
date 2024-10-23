@@ -11,6 +11,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class PrincipalView extends JFrame {
@@ -110,7 +111,13 @@ public class PrincipalView extends JFrame {
 
 
 	protected void ListarUsuarios() {
-		ListarUsuariosvView luv = new ListarUsuariosvView();
+		ListarUsuariosvView luv = null;
+		try {
+			luv = new ListarUsuariosvView();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		luv.setLocationRelativeTo(luv);
 		dispose();
 		luv.setVisible(true);
