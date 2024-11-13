@@ -26,7 +26,7 @@ public class PrincipalControle {
 		principalView.setVisible(true);
 		principalView.addPrincipalListener(new PrincipalListener());
 	}
-	class PrincipalListener implements ActionListener {
+	private class PrincipalListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
 			String command = e.getActionCommand();
