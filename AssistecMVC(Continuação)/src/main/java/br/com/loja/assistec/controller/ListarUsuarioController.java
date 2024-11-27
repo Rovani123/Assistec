@@ -2,6 +2,8 @@ package br.com.loja.assistec.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
@@ -26,6 +28,7 @@ public class ListarUsuarioController {
 	public void configurarListeners() {
 		listarView.addListarUsuariosListener(new ListarUsuariosListener());
 		listarView.addWindowListener(new JanelaAberturaListener());
+		listarView.addTabelaMouseListener(new TabelaMouseClickListener());
 	}
 
 	public void carregarUsuarios() {
@@ -41,6 +44,14 @@ public class ListarUsuarioController {
 		}
 	}
 	
+	private class TabelaMouseClickListener extends MouseAdapter{
+		public void mouseClicado(MouseEvent e) {
+			if(e.getButton() == MouseEvent.BUTTON1) {
+				System.out.println("O");
+			}
+		}
+	}
+	
 	public ArrayList<Usuario> listarUsuario() throws SQLException {
 		UsuarioDAO dao = new UsuarioDAO();
 		return dao.selecionarUsuarios();
@@ -52,7 +63,7 @@ public class ListarUsuarioController {
 			String comando = e.getActionCommand();
 			switch (comando) {
 			case "BotaoCadastrarAction": 
-				abrirCadastroUsuario(null);;
+				abrirCadastroUsuario(null);
 				break;
 			case "BotaoFecharAction":
 				listarView.dispose();
@@ -65,7 +76,7 @@ public class ListarUsuarioController {
 	}
 	
 	public void abrirCadastroUsuario(Usuario usuarioSelecionado) {
-//		new CadastrarUsuarioController(this, usuarioSelecionado);
+		new CadastrarUsuarioController(this, usuarioSelecionado);
 	}
 	
 	private class JanelaAberturaListener extends WindowAdapter{

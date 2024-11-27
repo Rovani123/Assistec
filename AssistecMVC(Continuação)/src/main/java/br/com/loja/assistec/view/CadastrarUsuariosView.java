@@ -3,6 +3,7 @@ package br.com.loja.assistec.view;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -26,7 +27,7 @@ public class CadastrarUsuariosView extends JFrame {
     private JPasswordField txtSenha;
     private JComboBox<String> cbPerfil;
 
-    public CadastrarUsuariosView() {
+    public CadastrarUsuariosView(Usuario usuarioSelecionado) {
     	// Definindo os textos dos botões
         setTitle("Cadastro de Usuários");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -65,10 +66,13 @@ public class CadastrarUsuariosView extends JFrame {
 
         JPanel panelBotoes = new JPanel();
         btnIncluir = new JButton("Incluir");
+        btnIncluir.setActionCommand("btnIncluir");
         btnExcluir = new JButton("Excluir");
         btnExcluir.setVisible(false);
+        btnExcluir.setActionCommand("btnExcluir");
         btnFechar = new JButton("Fechar");
-
+        btnFechar.setActionCommand("btnFechar");
+        
         panelBotoes.add(btnIncluir);
         panelBotoes.add(btnExcluir);
         panelBotoes.add(btnFechar);
@@ -76,6 +80,12 @@ public class CadastrarUsuariosView extends JFrame {
         pack();
     }
 
+    
+    public void addCadastrarUsuariosListeners(ActionListener Listeners) {
+    	btnIncluir.addActionListener(Listeners);
+    	btnExcluir.addActionListener(Listeners);
+    	btnFechar.addActionListener(Listeners);
+    }
 
     public void preencherCampos(Usuario usuarioSelecionado) {
         txtNome.setText(usuarioSelecionado.getNome());

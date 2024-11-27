@@ -1,6 +1,7 @@
 package br.com.loja.assistec.view;
 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -67,7 +68,10 @@ public class ListarUsuariosView extends JFrame {
 	public void mostrarUsuariosTabela(ArrayList<Usuario> listaUsuarios) {
 		usuarioTableModel = new UsuarioTableModel(listaUsuarios);
 		tabela.setModel(usuarioTableModel);
-		
+	}
+	
+	public void addTabelaMouseListener(MouseListener listener) {
+		tabela.addMouseListener(listener);
 	}
 	
 	}
