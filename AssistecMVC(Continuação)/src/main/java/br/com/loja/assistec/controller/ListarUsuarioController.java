@@ -44,12 +44,26 @@ public class ListarUsuarioController {
 		}
 	}
 	
+	private Usuario buscarUsuarioPorID(Long idUser) throws SQLException {
+		UsuarioDAO dao = new UsuarioDAO();
+		return dao.selecionarUsuario(idUser);
+	}
+	
 	private class TabelaMouseClickListener extends MouseAdapter{
-		public void mouseClicado(MouseEvent e) {
+		public void mouseClicked(MouseEvent e) {
 			if(e.getButton() == MouseEvent.BUTTON1) {
-				System.out.println("O");
+				int linha = listarView.getLinhaSelecionada();
+				Long idUser = (Long) listarView.getValorLinhaColuna(linha,0);
+				try {
+					Usuario usuarioSelecionado = buscarUsuarioPorID(idUser);
+					abrirCadastroUsuario(usuarioSelecionado);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+					new MensagemView("Erro ao buscar usuário",0);
+				}
 			}
 		}
+
 	}
 	
 	public ArrayList<Usuario> listarUsuario() throws SQLException {
@@ -58,7 +72,6 @@ public class ListarUsuarioController {
 	}
 
 	private class ListarUsuariosListener implements ActionListener {
-		@Override
 		public void actionPerformed(ActionEvent e) {
 			String comando = e.getActionCommand();
 			switch (comando) {
@@ -83,5 +96,9 @@ public class ListarUsuarioController {
 		public void windowOpened(WindowEvent e) {
 			carregarUsuarios();
 		}
+	}
+
+	public void atualizarTabela(ArrayList<Usuario> novosUsuarios) {
+		listarView.atualizarTabelaUsuarios(novosUsuarios);		
 	}
 }
